@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+        <script src="../bower_components/a11yfy/a11yfy/jquery.a11yfy.core.js"></script>
+        <script src="../bower_components/jquery.validation/jquery.validate.js"></script>
+        <link type="text/css" rel="stylesheet" href="../bower_components/a11yfy/a11yfy/jquery.a11yfy.core.css">
+        <style>
+        form {
+            max-width: 50%;
+        }
+        #instructions {
+            padding: 10px 10px 10px 10px;
+            border: 1px solid grey;
+            border-radius: 5px 5px 5px 5px;
+            background-color: lightyellow;
+        }
+        </style>
+    </head>
+    <body>
+        <h1>jQuery Dynamic Form Validation: BAD Example 2 - Dynamic Updates</h1>
+        <div class="form-container-50">
+        <form id="myform" action="mysubmitaction">
+            <div id="instructions">
+            </div>
+            <label for="firstname">First Name</label>
+            <input type="text" name="firstname" id="firstname"/>
+            <label for="lastname">Last Name</label>
+            <input type="text" name="lastname" id="lastname"/>
+            <fieldset>
+                <legend>Social Security Number</legend>
+                <input class="a11yfy-inline" style="width:3em;" type="text" name="ssn1" id="ssn1" maxlength="3" pattern="[0-9]*" title="first three digits"/> - 
+                <input class="a11yfy-inline" style="width:2em;" type="text" name="ssn2" id="ssn2" maxlength="2" pattern="[0-9]*" title="middle two digits"/> - 
+                <input class="a11yfy-inline" style="width:4em;" type="text" name="ssn3" id="ssn3" maxlength="4" pattern="[0-9]*" title="last four digits"/>
+            </fieldset>
+            <p>
+                <label for="dob">Date of Birth</label>
+                <input type="text" name="dob" id="dob" aria-describedby="dateformat"/>
+                <span id="dateformat">mm/dd/yyyy</span>
+            </p>
+            <span id="parentguardianinfo">
+                <label for="guardianfirstname">Guardian's First Name</label>
+                <input type="text" name="guardianfirstname" id="guardianfirstname"/>
+                <label for="guardianlastname">Guardian's Last Name</label>
+                <input type="text" name="guardianlastname" id="guardianlastname"/>
+            </span>
+             <button>Submit</button>
+        </form>
+        <a href="jqvalid9.html">Next</a>
+        </div>
+        <script>
+        var messages = {
+            "firstname" : "Enter your first name as it appears on your drivers license",
+            "lastname" : "Enter your last name as it appears on your drivers license",
+        }
+        function showInstruction(msg) {
+            jQuery('#instructions').show();
+            setTimeout(function () {
+                jQuery('#instructions').text(msg);
+            }, 0);
+        }
+        jQuery(document).ready(function (e) {
+            jQuery('#instructions, #parentguardianinfo').hide();
+            jQuery("input").on("focus", function (e) {
+                var msg = messages[this.id];
+                if (msg) {
+                    showInstruction(msg);
+                }
+            }).on("blur", function (e) {
+                jQuery('#instructions').hide();
+            });
+            jQuery("#dob").on("change", function (e) {
+                var rEx = /^([0-9][0-9]).([0-9][0-9]).([0-9][0-9][0-9][0-9])$/,
+                    dStr = jQuery.trim(jQuery(this).val()),
+                    match, dob,
+                    now = new Date(),
+                    year = 365*24*60*60*1000;
+
+                match = rEx.exec(dStr);
+                if (match) {
+                    console.log(parseInt(match[3], 10) + '/' + parseInt(match[1], 10) + '/' + parseInt(match[2], 10));
+                    dob = new Date(parseInt(match[3], 10), parseInt(match[1], 10), parseInt(match[2], 10));
+                    if (dob.getTime() > now.getTime()-(year*18)) {
+                        jQuery('#parentguardianinfo').show();
+                    } else {
+                        jQuery('#parentguardianinfo').hide();
+                    }
+                }
+            });
+        });
+        </script>
+    </body>
+</html>

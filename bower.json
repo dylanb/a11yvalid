@@ -1,0 +1,19 @@
+{
+  "name": "a11yvalid",
+  "version": "0.0.0",
+  "ignore": [
+    "**/.*",
+    "examples",
+    "test",
+    "*.md",
+    "LICENSE",
+    "Gruntfile.js",
+    "package.json",
+    "bower.json"
+  ],
+  "devDependencies": {
+    "jquery": "~1.10.2",
+    "jquery.validation" : "*",
+    "a11yfy": "git@github.com:dylanb/a11yfy.git"
+  }
+}
