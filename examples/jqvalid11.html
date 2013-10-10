@@ -97,7 +97,17 @@
         </div>
         <script>
         jQuery(document).ready(function () {
-            jQuery("#myform").a11yfy("validate");
+            jQuery("#myform").a11yfy("validate", {
+                validatorOptions : { "rules" : {
+                        "dob" : {
+                            date : true
+                        },
+                        "zip" : {
+                            digits : true
+                        }
+                    }
+                }
+            });
         });
         </script>
     </body>
